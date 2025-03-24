@@ -1,0 +1,20 @@
+# Usar Python como imagen base
+FROM python:3.10
+
+# Definir el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copiar los archivos necesarios
+COPY requirements.txt .
+
+# Instalar dependencias
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar el resto del código de la aplicación
+COPY . .
+
+# Exponer el puerto 8050 (Dash usa este por defecto)
+EXPOSE 8050
+
+# Comando para ejecutar la app con Gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:8050", "app:server"]
